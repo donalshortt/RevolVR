@@ -1,0 +1,3 @@
+[submodule "Assets/revolve2"]
+	path = Assets/revolve2
+	url = git@github.com:donalshortt/revolve2.git
