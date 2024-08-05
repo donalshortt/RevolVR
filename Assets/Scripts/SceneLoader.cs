@@ -15,9 +15,9 @@ namespace RevolVR {
 			switch(sceneName)
 			{
 				case "Lobby":
-					SimRunner revolveRunner = GetComponent<SimRunner>();
+					SimRunner simRunner = GetComponent<SimRunner>();
 
-					revolveRunner.RunRevolve();
+					simRunner.RunRevolve();
 					break;
 				default:
 					Debug.Log("Special instructions for scene not found!");
