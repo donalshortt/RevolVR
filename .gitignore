@@ -4,3 +4,5 @@
 # Except the assets folder
 !Assets/
 !Assets/**
+
+Assets/Local
