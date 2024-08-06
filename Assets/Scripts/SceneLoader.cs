@@ -10,26 +10,9 @@ namespace RevolVR {
 	{
 		public string sceneName;
 
-		public void LoadScene()
+		public IEnumerator LoadSceneAsync()
 		{
-			switch(sceneName)
-			{
-				case "Lobby":
-					SimRunner simRunner = GetComponent<SimRunner>();
-
-					simRunner.RunRevolve();
-					break;
-				default:
-					Debug.Log("Special instructions for scene not found!");
-					break;
-			}
-
-			StartCoroutine(LoadSceneAdditively());
-		}
-
-		IEnumerator LoadSceneAdditively()
-		{
-			AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+			AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
 
 			asyncLoad.allowSceneActivation = false;
 
@@ -37,13 +20,14 @@ namespace RevolVR {
 			{
 				if (asyncLoad.progress >= 0.9f)
 				{
-					// spinning ball here???
+					// spinny ball here?
 					asyncLoad.allowSceneActivation = true;
 				}
 
 				yield return null;
 			}
-			// if i want to get really fancy i can do a scene fade-in here
+
+			// if i want to get fancy i could put a fade-in or something here
 		}
 	}
 }

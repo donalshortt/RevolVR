@@ -5,6 +5,8 @@ using UnityEngine;
 using Mujoco;
 
 using Debug = UnityEngine.Debug;
+using System.Collections;
+using System.Threading.Tasks;
 
 public static class JsonHelper
 {
@@ -96,6 +98,15 @@ namespace RevolVR {
 			var importer = new MjImporterWithAssets();
 			GameObject importedScene = importer.ImportFile(path);
 
+			if (importedScene != null)
+			{
+				importedScene.tag = "MuJoCoImport";
+			}
+			else
+			{
+				Debug.LogError("MuJoCo scene import failed.");
+			}
+
 			return importedScene;
 		}
 
@@ -103,16 +114,23 @@ namespace RevolVR {
 		{
 			Shader newShader = Shader.Find("Universal Render Pipeline/Lit");
 
-			foreach (Renderer r in FindObjectsOfType<Renderer>())
+			GameObject[] mujocoObjects = GameObject.FindGameObjectsWithTag("MuJoCoImport");
+
+			foreach (GameObject obj in mujocoObjects)
 			{
-				foreach (Material m in r.materials)
+				Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+
+				foreach (Renderer r in renderers)
 				{
-					m.shader = newShader;
+					foreach (Material m in r.materials)
+					{
+						m.shader = newShader;
+					}
 				}
 			}
 		}
 
-		public void RunRevolve()
+		public IEnumerator RunRevolveAsync()
 		{
 			string command = "py -3.11 Assets/revolve2/vr/main.py";
 
@@ -127,12 +145,30 @@ namespace RevolVR {
 						 CreateNoWindow = true
 			};
 
-			using (Process process = Process.Start(processInfo))
+			using (Process process = new Process())
 			{
-				string output = process.StandardOutput.ReadToEnd();
-				string error = process.StandardError.ReadToEnd();
+				process.StartInfo = processInfo;
+				process.Start();
 
-				process.WaitForExit();
+				// Start reading output and error streams asynchronously
+				Task<string> outputTask = process.StandardOutput.ReadToEndAsync();
+				Task<string> errorTask = process.StandardError.ReadToEndAsync();
+
+				// Poll until the process exits without blocking the main thread
+				while (!process.HasExited)
+				{
+					yield return null;  // Wait for the next frame
+				}
+
+				// Wait until both tasks are completed
+				while (!outputTask.IsCompleted || !errorTask.IsCompleted)
+				{
+					yield return null;  // Wait for the next frame
+				}
+
+				// Now that both tasks are completed, get the results
+				string output = outputTask.Result;
+				string error = errorTask.Result;
 
 				Debug.Log("Output: " + output);
 				if (!string.IsNullOrEmpty(error))
