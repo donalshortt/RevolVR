@@ -1,6 +1,6 @@
 <mujoco model="scene">
   <compiler autolimits="true" angle="radian"/>
-  <option timestep="0.001" gravity="0 0 -9.8100000000000005" integrator="RK4"/>
+  <option timestep="0.01" gravity="0 0 -9.8100000000000005" integrator="RK4"/>
   <visual>
     <headlight active="0"/>
   </visual>
