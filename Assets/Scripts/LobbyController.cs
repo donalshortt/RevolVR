@@ -8,6 +8,12 @@ public class LobbyController : MonoBehaviour {
     public GameObject simRunnerObject;
  	public GameObject sceneLoaderObject;
 	public TMP_Text textMeshPro;
+    public GameObject databaseObject;
+
+    void Start() {
+        Database database = databaseObject.GetComponent<Database>();
+        database.RetrieveGenerations();
+    }
 
     public void StartSim()
     {
