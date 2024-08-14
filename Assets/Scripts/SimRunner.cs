@@ -106,31 +106,31 @@ namespace RevolVR {
 			if (importedScene != null)
 			{
 				importedScene.tag = "MuJoCoImport";
-				Transform transform = importedScene.transform;
-				foreach(Transform child in transform)
-				{
-					GameObject childObject = child.gameObject;
-                    string childName = childObject.name;
-					if (childName.StartsWith("mbs") && childName != "mbs0/") {
-						//childObject.AddComponent<XRSimpleInteractable>();
-						//Rigidbody rb = childObject.AddComponent<Rigidbody>();
-						//rb.isKinematic = true;
-						//childObject.AddComponent<Click>();
-						prefab = Resources.Load<GameObject>("Blaser-Long");
-						if(prefab != null)
-						{
-                            // Instantiate the prefab
-                            GameObject instantiatedPrefab = Instantiate(prefab);
-
-                            // Set the parent of the instantiated prefab
-                            instantiatedPrefab.transform.SetParent(child, false);
-                        }
-                        else
-                        {
-                            Debug.LogError("Prefab or Parent Transform is not assigned or could not be found.");
-                        }
-                    }
-                }
+				//Transform transform = importedScene.transform;
+				//foreach(Transform child in transform)
+				//{
+				//	GameObject childObject = child.gameObject;
+                //    string childName = childObject.name;
+				//	if (childName.StartsWith("mbs") && childName != "mbs0/") {
+				//		//childObject.AddComponent<XRSimpleInteractable>();
+				//		//Rigidbody rb = childObject.AddComponent<Rigidbody>();
+				//		//rb.isKinematic = true;
+				//		//childObject.AddComponent<Click>();
+				//		prefab = Resources.Load<GameObject>("Blaser-Long");
+				//		if(prefab != null)
+				//		{
+                //            // Instantiate the prefab
+                //            GameObject instantiatedPrefab = Instantiate(prefab);
+//
+                //            // Set the parent of the instantiated prefab
+                //            instantiatedPrefab.transform.SetParent(child, false);
+                //        }
+                //        else
+                //        {
+                //            Debug.LogError("Prefab or Parent Transform is not assigned or could not be found.");
+                //        }
+                //    }
+                //}
             }
 			else
 			{
@@ -162,7 +162,9 @@ namespace RevolVR {
 
 		public IEnumerator RunRevolveAsync()
 		{
-			string command = "wsl python3 Assets/revolve2/vr/main.py";
+			//string command = "wsl python3 Assets/revolve2/vr/main.py";
+			//string command = "wsl python3 Assets/revolve2/examples/4_example_experiment_setups/4d_robot_bodybrain_ea_database/main.py";
+			string command = "wsl python3 Assets/revolve2/vr/db/gen_rand_robots.py";
 			//string command = "py -3.11 Assets/revolve2/rounak/final_run/rerun.py";
 
 			// Initialize the ProcessStartInfo
