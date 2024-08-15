@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Database : MonoBehaviour
 {
-    private string dbPath = Application.dataPath + "/databa.sqlite";
+    private string dbPath = Application.dataPath + "/database.sqlite";
     public void RetrieveGenerations()
     {
 
@@ -20,12 +20,12 @@ public class Database : MonoBehaviour
         using (var command = connection.CreateCommand())
         {
             // Retrieve all users from the Users table
-            command.CommandText = "SELECT * FROM Generation";
+            command.CommandText = "SELECT * FROM Individual";
             using (IDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    Debug.Log("Generation index: " + reader["generation_index"]);
+                    Debug.Log($"Individual id: {reader["id"]}");
                 }
             }
         }
