@@ -456,6 +456,7 @@ MonoBehaviour:
   simRunnerObject: {fileID: 712779245}
   sceneLoaderObject: {fileID: 994626126}
   textMeshPro: {fileID: 1337534095}
+  databaseObject: {fileID: 1158799015}
 --- !u!4 &419298525
 Transform:
   m_ObjectHideFlags: 0
@@ -1216,7 +1217,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   simulationScene:
     scenes: []
-  databaseObject: {fileID: 0}
 --- !u!1 &733854332
 GameObject:
   m_ObjectHideFlags: 0
@@ -3293,7 +3293,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 9.1837e-41, w: -1.177e-42}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 4e-44, z: 2.5406e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

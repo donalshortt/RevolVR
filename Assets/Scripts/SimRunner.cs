@@ -163,9 +163,7 @@ namespace RevolVR {
 		public IEnumerator RunRevolveAsync()
 		{
 			//string command = "wsl python3 Assets/revolve2/vr/main.py";
-			//string command = "wsl python3 Assets/revolve2/examples/4_example_experiment_setups/4d_robot_bodybrain_ea_database/main.py";
 			string command = "wsl python3 Assets/revolve2/vr/db/gen_rand_robots.py";
-			//string command = "py -3.11 Assets/revolve2/rounak/final_run/rerun.py";
 
 			// Initialize the ProcessStartInfo
 			ProcessStartInfo processInfo = new ProcessStartInfo
