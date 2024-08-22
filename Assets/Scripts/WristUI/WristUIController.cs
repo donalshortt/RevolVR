@@ -27,7 +27,7 @@ public class WristUIController : MonoBehaviour
 
             TMP_Text header = instance.transform.Find("Header").GetComponent<TMP_Text>();
             //TMP_Text header = instance.GetComponentInChildren<TMP_Text>();
-            header.text = $"Select parents of child {i+1}/{offspringSize}";
+            header.text = $"Select parents of child {i + 1}/{offspringSize}";
 
             if (i == 0)
             {
@@ -52,7 +52,8 @@ public class WristUIController : MonoBehaviour
         string parent1Value = selectParent1.options[selectParent1.value].text;
         TMP_Dropdown selectParent2 = currentMenu.transform.Find("SelectParent2").GetComponent<TMP_Dropdown>();
         string parent2Value = selectParent2.options[selectParent2.value].text;
-        if(parent1Value == "Select parent..." || parent2Value == "Select parent...") {
+        if (parent1Value == "Select parent..." || parent2Value == "Select parent...")
+        {
             TMP_Text selectParentError = currentMenu.transform.Find("SelectParentError").GetComponent<TMP_Text>();
             selectParentError.gameObject.SetActive(true);
             return;
@@ -65,8 +66,7 @@ public class WristUIController : MonoBehaviour
         }
         else
         {
-            // Handle the 'Submit' action here
-            Debug.Log("Submit all selections");
+            OnSubmit();
         }
     }
 
@@ -77,6 +77,26 @@ public class WristUIController : MonoBehaviour
         {
             menuInstances[currentIndex - 1].SetActive(true);
             currentMenu.SetActive(false);
+        }
+    }
+
+    public void OnSubmit()
+    {
+        foreach (GameObject menu in menuInstances)
+        {
+            SelectParentsWristMenuController menuController = menu.GetComponent<SelectParentsWristMenuController>();
+            if (menuController != null)
+            {
+                var (parent1Id, parent2Id, mutate) = menuController.GetSelectionData();
+                int generationId = DatabaseLogic.GetLatestGenerationId();
+                if(generationId == -1) {
+                    Debug.LogError("No generations found in the database.");
+                    return;
+                }
+                bool submitted = DatabaseLogic.InsertParents(parent1Id, parent2Id, generationId, mutate);
+                if(!submitted) return;
+            }
+            else Debug.LogError("SelectParentsWristMenuController not found.");
         }
     }
 }
