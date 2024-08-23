@@ -10,6 +10,7 @@ public class InitLobbyController : MonoBehaviour
     public GameObject sceneLoaderObject;
     public TMP_Text textMeshPro;
     public Button startButton;
+    public GameObject settingsButtonObject;
     public GameObject startMenuObject;
     public GameObject settingsMenuObject;
     public Slider populationSlider;
@@ -40,6 +41,7 @@ public class InitLobbyController : MonoBehaviour
             yield break;
         }
         startButton.interactable = false;
+        settingsButtonObject.SetActive(false);
         textMeshPro.text = "Simulating...";
         SimRunner simRunner = simRunnerObject.GetComponent<SimRunner>();
         if (simRunner == null)

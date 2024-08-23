@@ -6,11 +6,13 @@ using System.Collections;
 
 public class WristUIController : MonoBehaviour
 {
-    public GameObject prefab;
+    public GameObject selectParentsPrefab;
+    public GameObject gameOverPrefab;
     public int offspringSize;
     private GameObject[] menuInstances;
     private AppConfig config;
     public GameObject sceneLoaderObject;
+    public GameObject lobbyLoaderObject;
 
     void Start()
     {
@@ -21,7 +23,7 @@ public class WristUIController : MonoBehaviour
         {
             for (int i = 0; i < offspringSize; i++)
             {
-                GameObject instance = Instantiate(prefab, this.transform, false);
+                GameObject instance = Instantiate(selectParentsPrefab, this.transform, false);
                 instance.name = "Menu " + (i + 1);
                 menuInstances[i] = instance;
 
@@ -48,6 +50,12 @@ public class WristUIController : MonoBehaviour
                 // Initially set all inactive except the first one
                 if (i > 0) instance.SetActive(false);
             }
+        }
+        else
+        {
+            GameObject instance = Instantiate(gameOverPrefab, this.transform, false);
+            Button lobbyButton = instance.transform.Find("LobbyButton").GetComponent<Button>();
+            lobbyButton.onClick.AddListener(() => StartCoroutine(BackToLobby()));
         }
     }
 
@@ -83,6 +91,18 @@ public class WristUIController : MonoBehaviour
             menuInstances[currentIndex - 1].SetActive(true);
             currentMenu.SetActive(false);
         }
+    }
+
+    private IEnumerator BackToLobby()
+    {
+        Debug.Log("Going baaaaaack");
+        SceneLoader lobbyLoader = lobbyLoaderObject.GetComponent<SceneLoader>();
+        if (lobbyLoader == null)
+        {
+            Debug.LogError("LobbyLoader component is missing from the specified GameObject.");
+            yield break;
+        }
+        yield return StartCoroutine(lobbyLoader.LoadSceneAsync());
     }
 
     public IEnumerator OnSubmit()
