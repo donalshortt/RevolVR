@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro; // Include this if using TextMeshPro
+using RevolVR;
+using System.Collections;
 
 public class WristUIController : MonoBehaviour
 {
@@ -8,41 +10,44 @@ public class WristUIController : MonoBehaviour
     public int offspringSize;
     private GameObject[] menuInstances;
     private AppConfig config;
+    public GameObject sceneLoaderObject;
 
     void Start()
     {
         config = ConfigManager.LoadConfig("Assets/revolve2/vr/db/config.json");
         offspringSize = config.OFFSPRING_SIZE;
         menuInstances = new GameObject[offspringSize];
-
-        for (int i = 0; i < offspringSize; i++)
+        if (config.ROUNDS_INDEX > 0)
         {
-            GameObject instance = Instantiate(prefab, this.transform, false);
-            instance.name = "Menu " + (i + 1);
-            menuInstances[i] = instance;
-
-            // Set up button listeners
-            Button nextButton = instance.transform.Find("NextButton").GetComponent<Button>();
-            Button prevButton = instance.transform.Find("PreviousButton").GetComponent<Button>();
-
-            TMP_Text header = instance.transform.Find("Header").GetComponent<TMP_Text>();
-            //TMP_Text header = instance.GetComponentInChildren<TMP_Text>();
-            header.text = $"Select parents of child {i + 1}/{offspringSize}";
-
-            if (i == 0)
+            for (int i = 0; i < offspringSize; i++)
             {
-                prevButton.interactable = false; // Disable previous button on the first prefab
-            }
-            if (i == offspringSize - 1)
-            {
-                nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Submit"; // Change Next to Submit on the last prefab
-            }
+                GameObject instance = Instantiate(prefab, this.transform, false);
+                instance.name = "Menu " + (i + 1);
+                menuInstances[i] = instance;
 
-            nextButton.onClick.AddListener(() => ShowNextMenu(instance));
-            prevButton.onClick.AddListener(() => ShowPreviousMenu(instance));
+                // Set up button listeners
+                Button nextButton = instance.transform.Find("NextButton").GetComponent<Button>();
+                Button prevButton = instance.transform.Find("PreviousButton").GetComponent<Button>();
 
-            // Initially set all inactive except the first one
-            if (i > 0) instance.SetActive(false);
+                TMP_Text header = instance.transform.Find("Header").GetComponent<TMP_Text>();
+                //TMP_Text header = instance.GetComponentInChildren<TMP_Text>();
+                header.text = $"Select parents of child {i + 1}/{offspringSize}";
+
+                if (i == 0)
+                {
+                    prevButton.interactable = false; // Disable previous button on the first prefab
+                }
+                if (i == offspringSize - 1)
+                {
+                    nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Submit"; // Change Next to Submit on the last prefab
+                }
+
+                nextButton.onClick.AddListener(() => ShowNextMenu(instance));
+                prevButton.onClick.AddListener(() => ShowPreviousMenu(instance));
+
+                // Initially set all inactive except the first one
+                if (i > 0) instance.SetActive(false);
+            }
         }
     }
 
@@ -66,7 +71,7 @@ public class WristUIController : MonoBehaviour
         }
         else
         {
-            OnSubmit();
+            StartCoroutine(OnSubmit());
         }
     }
 
@@ -80,7 +85,7 @@ public class WristUIController : MonoBehaviour
         }
     }
 
-    public void OnSubmit()
+    public IEnumerator OnSubmit()
     {
         foreach (GameObject menu in menuInstances)
         {
@@ -88,15 +93,31 @@ public class WristUIController : MonoBehaviour
             if (menuController != null)
             {
                 var (parent1Id, parent2Id, mutate) = menuController.GetSelectionData();
-                int generationId = DatabaseLogic.GetLatestGenerationId();
-                if(generationId == -1) {
+                int generationId = DatabaseManager.GetLatestGenerationId();
+                if (generationId == -1)
+                {
                     Debug.LogError("No generations found in the database.");
-                    return;
+                    yield break;
                 }
-                bool submitted = DatabaseLogic.InsertParents(parent1Id, parent2Id, generationId, mutate);
-                if(!submitted) return;
+                bool submitted = DatabaseManager.InsertParents(parent1Id, parent2Id, generationId, mutate);
+                if (!submitted)
+                {
+                    Debug.LogError("Could not update parents table.");
+                    yield break;
+                }
             }
-            else Debug.LogError("SelectParentsWristMenuController not found.");
+            else
+            {
+                Debug.LogError("SelectParentsWristMenuController not found.");
+                yield break;
+            }
         }
+        SceneLoader sceneLoader = sceneLoaderObject.GetComponent<SceneLoader>();
+        if (sceneLoader == null)
+        {
+            Debug.LogError("SceneLoader component is missing from the specified GameObject.");
+            yield break;
+        }
+        yield return StartCoroutine(sceneLoader.LoadSceneAsync());
     }
 }

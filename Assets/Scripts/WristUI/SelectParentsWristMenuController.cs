@@ -20,7 +20,7 @@ public class SelectParentsWristMenuController : MonoBehaviour
     {
         config = ConfigManager.LoadConfig("Assets/revolve2/vr/db/config.json");
         populationSize = config.POPULATION_SIZE;
-        List<int> individualIds = DatabaseLogic.GetIndividualIdsFromLatestPopulation();
+        List<int> individualIds = DatabaseManager.GetIndividualIdsFromLatestPopulation();
         List<string> parentOptions = new List<string>();
         for (int i = 0; i < individualIds.Count; i++)
         {

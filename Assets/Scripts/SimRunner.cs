@@ -89,13 +89,15 @@ public class SimulationScene
 	public SimulationSceneState[] scenes;
 }
 
-namespace RevolVR {
+namespace RevolVR
+{
 
 	public class SimRunner : MonoBehaviour
 	{
 		public SimulationScene simulationScene;
 		private int currentIndex = 0;
 		private GameObject prefab;
+		public string FileName { get; set; }
 
 		public GameObject ImportMujocoScene()
 		{
@@ -110,7 +112,7 @@ namespace RevolVR {
 				//foreach(Transform child in transform)
 				//{
 				//	GameObject childObject = child.gameObject;
-                //    string childName = childObject.name;
+				//    string childName = childObject.name;
 				//	if (childName.StartsWith("mbs") && childName != "mbs0/") {
 				//		//childObject.AddComponent<XRSimpleInteractable>();
 				//		//Rigidbody rb = childObject.AddComponent<Rigidbody>();
@@ -119,19 +121,19 @@ namespace RevolVR {
 				//		prefab = Resources.Load<GameObject>("Blaser-Long");
 				//		if(prefab != null)
 				//		{
-                //            // Instantiate the prefab
-                //            GameObject instantiatedPrefab = Instantiate(prefab);
-//
-                //            // Set the parent of the instantiated prefab
-                //            instantiatedPrefab.transform.SetParent(child, false);
-                //        }
-                //        else
-                //        {
-                //            Debug.LogError("Prefab or Parent Transform is not assigned or could not be found.");
-                //        }
-                //    }
-                //}
-            }
+				//            // Instantiate the prefab
+				//            GameObject instantiatedPrefab = Instantiate(prefab);
+				//
+				//            // Set the parent of the instantiated prefab
+				//            instantiatedPrefab.transform.SetParent(child, false);
+				//        }
+				//        else
+				//        {
+				//            Debug.LogError("Prefab or Parent Transform is not assigned or could not be found.");
+				//        }
+				//    }
+				//}
+			}
 			else
 			{
 				Debug.LogError("MuJoCo scene import failed.");
@@ -162,18 +164,21 @@ namespace RevolVR {
 
 		public IEnumerator RunRevolveAsync()
 		{
-			//string command = "wsl python3 Assets/revolve2/vr/main.py";
-			string command = "wsl python3 Assets/revolve2/vr/db/gen_rand_robots.py";
-
+			if (string.IsNullOrWhiteSpace(FileName))
+			{
+				Debug.LogError("FileName cannot be null or empty.");
+				yield break;
+			}
+			string command = $"wsl python3 Assets/revolve2/vr/db/{FileName}";
 			// Initialize the ProcessStartInfo
 			ProcessStartInfo processInfo = new ProcessStartInfo
 			{
 				FileName = "cmd.exe",
-						 Arguments = $"/c {command}",
-						 RedirectStandardOutput = true,
-						 RedirectStandardError = true,
-						 UseShellExecute = false,
-						 CreateNoWindow = true
+				Arguments = $"/c {command}",
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				UseShellExecute = false,
+				CreateNoWindow = true
 			};
 
 			using (Process process = new Process())

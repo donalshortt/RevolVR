@@ -3121,7 +3121,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4458449399986113120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3173,6 +3173,7 @@ MonoBehaviour:
   parent1Dropdown: {fileID: 6877198047478631503}
   parent2Dropdown: {fileID: 7133295092430699199}
   mutateDropdown: {fileID: 8057434381765031757}
+  populationSize: 0
 --- !u!1 &7162074673435969250
 GameObject:
   m_ObjectHideFlags: 0
