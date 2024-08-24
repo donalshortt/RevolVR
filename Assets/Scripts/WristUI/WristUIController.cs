@@ -8,7 +8,7 @@ public class WristUIController : MonoBehaviour
 {
     public GameObject selectParentsPrefab;
     public GameObject gameOverPrefab;
-    public int offspringSize;
+    private int offspringSize;
     private GameObject[] menuInstances;
     private AppConfig config;
     public GameObject sceneLoaderObject;
@@ -19,7 +19,7 @@ public class WristUIController : MonoBehaviour
         config = ConfigManager.LoadConfig("Assets/revolve2/vr/db/config.json");
         offspringSize = config.OFFSPRING_SIZE;
         menuInstances = new GameObject[offspringSize];
-        if (config.ROUNDS_INDEX > 0)
+        if (config.ROUNDS_INDEX <= config.ROUNDS)
         {
             for (int i = 0; i < offspringSize; i++)
             {
@@ -32,8 +32,9 @@ public class WristUIController : MonoBehaviour
                 Button prevButton = instance.transform.Find("PreviousButton").GetComponent<Button>();
 
                 TMP_Text header = instance.transform.Find("Header").GetComponent<TMP_Text>();
-                //TMP_Text header = instance.GetComponentInChildren<TMP_Text>();
                 header.text = $"Select parents of child {i + 1}/{offspringSize}";
+                TMP_Text roundsText = instance.transform.Find("RoundsText").GetComponent<TMP_Text>();
+                roundsText.text = $"Round {config.ROUNDS_INDEX}/{config.ROUNDS}";
 
                 if (i == 0)
                 {

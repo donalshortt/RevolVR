@@ -24,12 +24,12 @@ public class InitLobbyController : MonoBehaviour
     {
         configPath = "Assets/revolve2/vr/db/config.json";
         config = ConfigManager.LoadConfig(configPath);
+        config.ROUNDS_INDEX = 1;
+        ConfigManager.SaveConfig(configPath, config);
     }
 
     public void StartSim()
     {
-        config.ROUNDS_INDEX = config.ROUNDS;
-        ConfigManager.SaveConfig(configPath, config);
         StartCoroutine(RunSimAndLoadScene());
     }
 

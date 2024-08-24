@@ -103,11 +103,12 @@ namespace RevolVR
 		{
 			string path = $"{Application.dataPath}/model.xml";
 			var importer = new MjImporterWithAssets();
-			GameObject importedScene = importer.ImportFile(path);
+			//GameObject importedScene = importer.ImportFile(path);
+			GameObject importedScene = null;
 
-			if (importedScene != null)
+			while (importedScene == null)
 			{
-				importedScene.tag = "MuJoCoImport";
+				importedScene = importer.ImportFile(path);
 				//Transform transform = importedScene.transform;
 				//foreach(Transform child in transform)
 				//{
@@ -134,11 +135,7 @@ namespace RevolVR
 				//    }
 				//}
 			}
-			else
-			{
-				Debug.LogError("MuJoCo scene import failed.");
-			}
-
+			importedScene.tag = "MuJoCoImport";
 			return importedScene;
 		}
 

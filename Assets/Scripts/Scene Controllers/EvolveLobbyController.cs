@@ -18,7 +18,7 @@ public class EvolveLobbyController : MonoBehaviour
         startButton.interactable = false;
         configPath = "Assets/revolve2/vr/db/config.json";
         config = ConfigManager.LoadConfig(configPath);
-        config.ROUNDS_INDEX -= 1;
+        config.ROUNDS_INDEX++;
         ConfigManager.SaveConfig(configPath, config);
         StartCoroutine(RunSimAndLoadScene());
     }

@@ -699,7 +699,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectParentsPrefab: {fileID: 6966969781763166285, guid: 37e2ff50d75ba36459463e50f376b524, type: 3}
   gameOverPrefab: {fileID: 6966969781763166285, guid: 7952a950fc92d7747b3c6f7e2b0e036d, type: 3}
-  offspringSize: 0
   sceneLoaderObject: {fileID: 369655655}
   lobbyLoaderObject: {fileID: 1477292457}
 --- !u!1 &891264267
