@@ -593,6 +593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   simulationScene:
     scenes: []
+  brainPrefab: {fileID: 4983151100996038645, guid: 69c1a43afb7086848a6100d5169d38db, type: 3}
 --- !u!4 &686127192
 Transform:
   m_ObjectHideFlags: 0

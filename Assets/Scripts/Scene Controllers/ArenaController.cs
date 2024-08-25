@@ -37,6 +37,7 @@ public class ArenaController : MonoBehaviour
 		GameObject mujocoScene1 = simRunner.ImportMujocoScene();
 
 		simRunner.ApplyShaders();
+		simRunner.AddInfoObjects();
 		MjScene.Instance.ctrlCallback += (_, _) => simRunner.TrackMujocoData();
 
 		string filePath = Path.Combine(Application.dataPath, "animation_data.json");

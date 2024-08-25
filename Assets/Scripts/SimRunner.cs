@@ -98,6 +98,7 @@ namespace RevolVR
 		private int currentIndex = 0;
 		private GameObject prefab;
 		public string FileName { get; set; }
+		public GameObject brainPrefab;
 
 		public GameObject ImportMujocoScene()
 		{
@@ -105,35 +106,9 @@ namespace RevolVR
 			var importer = new MjImporterWithAssets();
 			//GameObject importedScene = importer.ImportFile(path);
 			GameObject importedScene = null;
-
 			while (importedScene == null)
 			{
 				importedScene = importer.ImportFile(path);
-				//Transform transform = importedScene.transform;
-				//foreach(Transform child in transform)
-				//{
-				//	GameObject childObject = child.gameObject;
-				//    string childName = childObject.name;
-				//	if (childName.StartsWith("mbs") && childName != "mbs0/") {
-				//		//childObject.AddComponent<XRSimpleInteractable>();
-				//		//Rigidbody rb = childObject.AddComponent<Rigidbody>();
-				//		//rb.isKinematic = true;
-				//		//childObject.AddComponent<Click>();
-				//		prefab = Resources.Load<GameObject>("Blaser-Long");
-				//		if(prefab != null)
-				//		{
-				//            // Instantiate the prefab
-				//            GameObject instantiatedPrefab = Instantiate(prefab);
-				//
-				//            // Set the parent of the instantiated prefab
-				//            instantiatedPrefab.transform.SetParent(child, false);
-				//        }
-				//        else
-				//        {
-				//            Debug.LogError("Prefab or Parent Transform is not assigned or could not be found.");
-				//        }
-				//    }
-				//}
 			}
 			importedScene.tag = "MuJoCoImport";
 			return importedScene;
@@ -246,5 +221,30 @@ namespace RevolVR
 				Debug.LogError("Imported scene root is null.");
 			}
 		}
+
+		public void AddInfoObjects()
+		{
+			GameObject mujocoScene = GameObject.FindWithTag("MuJoCoImport");
+			if (mujocoScene == null)
+			{
+				Debug.Log("Couldn't find imported MuJoCo scene");
+				return;
+			}
+
+			Transform sceneTransform = mujocoScene.transform;
+			int i = 1;
+			foreach (Transform child in sceneTransform)
+			{
+				GameObject childObject = child.gameObject;
+				string childName = childObject.name;
+				if (childName.StartsWith("mbs") && childName != "mbs0/")
+				{
+					GameObject instantiatedPrefab = Instantiate(brainPrefab);
+					instantiatedPrefab.transform.SetParent(childObject.transform.GetChild(1), false);
+					instantiatedPrefab.transform.position = childObject.transform.GetChild(1).position;
+				}
+			}
+		}
+
 	}
 }

@@ -10,9 +10,12 @@ public class Click : MonoBehaviour
     private XRSimpleInteractable interactable;
     private void Awake()
     {
+        //Vector3 currentPosition = transform.position;
+        //Debug.Log($"Original position {currentPosition}");
+        //currentPosition.x = 0;
+        //transform.position = currentPosition;
+        //Debug.Log($"New position {transform.position}");
         interactable = GetComponent<XRSimpleInteractable>();
-
-
     }
 
     private void OnEnable()
