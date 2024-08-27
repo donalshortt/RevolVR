@@ -6,6 +6,18 @@ using UnityEngine.UI;
 using System.Data;
 using Mono.Data.Sqlite;
 
+public class IndividualData
+{
+    public int Id { get; set; }
+    public float Fitness { get; set; }
+
+    public IndividualData(int id, float fitness)
+    {
+        Id = id;
+        Fitness = fitness;
+    }
+}
+
 public class DatabaseManager : MonoBehaviour
 {
     public static IDbConnection GetDBConnection()
@@ -61,29 +73,6 @@ public class DatabaseManager : MonoBehaviour
         }
     }
 
-    public static void GetParents()
-    {
-        using (IDbConnection dbConnection = GetDBConnection())
-        {
-            using (IDbCommand dbCmd = dbConnection.CreateCommand())
-            {
-                string sqlQuery = "SELECT * FROM parents LIMIT 1";
-                dbCmd.CommandText = sqlQuery;
-
-                using (IDataReader reader = dbCmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        int parent1 = reader.GetInt32(reader.GetOrdinal("parent1_id"));
-                        int parent2 = reader.IsDBNull(reader.GetOrdinal("parent2_id")) ? -1 : reader.GetInt32(reader.GetOrdinal("parent2_id"));
-                        Debug.Log($"Parent 1: {parent1}");
-                        Debug.Log($"Parent 2: {parent2}");
-                    }
-                }
-            }
-        }
-    }
-
     public static int GetLatestGenerationId()
     {
         using (IDbConnection dbConnection = GetDBConnection())
@@ -105,14 +94,13 @@ public class DatabaseManager : MonoBehaviour
         }
     }
 
-    public static List<int> GetIndividualIdsFromLatestPopulation()
+    public static List<int> GetIndividualIdsFromLatestGeneration()
     {
         List<int> individualIds = new List<int>();
         using (IDbConnection dbConnection = GetDBConnection())
         {
             using (IDbCommand dbCmd = dbConnection.CreateCommand())
             {
-                // Updated SQL query to include sorting by individual id
                 dbCmd.CommandText = @"
                     SELECT i.id FROM individual i
                     JOIN population p ON i.population_id = p.id
@@ -127,11 +115,42 @@ public class DatabaseManager : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        individualIds.Add(reader.GetInt32(0)); // Assuming the first column is individual id
+                        individualIds.Add(reader.GetInt32(0));
                     }
                 }
             }
         }
         return individualIds;
     }
+
+    public static List<IndividualData> GetIndividualsDataFromLatestGeneration()
+{
+    List<IndividualData> individuals = new List<IndividualData>();
+    using (IDbConnection dbConnection = GetDBConnection())
+    {
+        using (IDbCommand dbCmd = dbConnection.CreateCommand())
+        {
+            dbCmd.CommandText = @"
+                SELECT i.id, i.fitness FROM individual i
+                JOIN population p ON i.population_id = p.id
+                JOIN generation g ON p.id = g.population_id
+                WHERE g.id = (
+                    SELECT MAX(id) FROM generation
+                )
+                ORDER BY i.id ASC;
+            ";
+
+            using (IDataReader reader = dbCmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0); // Assuming the first column is the ID
+                    float fitness = reader.GetFloat(1); // Assuming the second column is the fitness
+                    individuals.Add(new IndividualData(id, fitness));
+                }
+            }
+        }
+    }
+    return individuals;
+}
 }

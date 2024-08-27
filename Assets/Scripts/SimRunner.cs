@@ -1,9 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Collections.Generic;
 using UnityEngine;
 using Mujoco;
-
+using TMPro;
 using Debug = UnityEngine.Debug;
 using System.Collections;
 using System.Threading.Tasks;
@@ -232,7 +233,8 @@ namespace RevolVR
 			}
 
 			Transform sceneTransform = mujocoScene.transform;
-			int i = 1;
+			int i = 0;
+			List<IndividualData> latestIndividuals = DatabaseManager.GetIndividualsDataFromLatestGeneration();
 			foreach (Transform child in sceneTransform)
 			{
 				GameObject childObject = child.gameObject;
@@ -240,6 +242,24 @@ namespace RevolVR
 				if (childName.StartsWith("mbs") && childName != "mbs0/")
 				{
 					GameObject instantiatedPrefab = Instantiate(brainPrefab);
+					RobotInfo robotInfo = instantiatedPrefab.GetComponent<RobotInfo>();
+					if (robotInfo != null)
+					{
+						if (i >= latestIndividuals.Count)
+						{
+							Debug.Log("There is a mismatch between the amount of users in the scene and the amount of individuals in the latest generation.");
+						}
+						else
+						{
+							IndividualData currentIndividual = latestIndividuals[i];
+							i++;
+							robotInfo.UpdateRobotInfo($"Robot {i}", currentIndividual.Fitness, currentIndividual.Id);
+						}
+					}
+					else
+					{
+						Debug.LogError("RobotInfo script not found on the instantiated prefab.");
+					}
 					instantiatedPrefab.transform.SetParent(childObject.transform.GetChild(1), false);
 					instantiatedPrefab.transform.position = childObject.transform.GetChild(1).position;
 				}
