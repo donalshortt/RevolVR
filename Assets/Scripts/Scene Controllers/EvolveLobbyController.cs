@@ -36,7 +36,7 @@ public class EvolveLobbyController : MonoBehaviour
         simRunner.FileName = "evolve_robots.py";
         yield return StartCoroutine(simRunner.RunRevolveAsync());
         headerObject.GetComponent<TMP_Text>().text = "Simulation is ready!";
-        startButtonText.text = "Start";
+        startButtonText.text = "Start Simulation";
         startButton.interactable = true;
     }
 

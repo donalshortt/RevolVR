@@ -20,14 +20,11 @@ namespace RevolVR {
 			{
 				if (asyncLoad.progress >= 0.9f)
 				{
-					// spinny ball here?
 					asyncLoad.allowSceneActivation = true;
 				}
 
 				yield return null;
 			}
-
-			// if i want to get fancy i could put a fade-in or something here
 		}
 	}
 }

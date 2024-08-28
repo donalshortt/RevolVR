@@ -96,7 +96,6 @@ public class WristUIController : MonoBehaviour
 
     private IEnumerator BackToLobby()
     {
-        Debug.Log("Going baaaaaack");
         SceneLoader lobbyLoader = lobbyLoaderObject.GetComponent<SceneLoader>();
         if (lobbyLoader == null)
         {

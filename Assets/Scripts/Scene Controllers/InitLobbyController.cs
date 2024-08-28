@@ -11,6 +11,7 @@ public class InitLobbyController : MonoBehaviour
     public TMP_Text textMeshPro;
     public Button startButton;
     public GameObject settingsButtonObject;
+    public GameObject instructionsButtonObject;
     public GameObject startMenuObject;
     public GameObject settingsMenuObject;
     public Slider populationSlider;
@@ -19,6 +20,7 @@ public class InitLobbyController : MonoBehaviour
     private AppConfig config;
     private string configPath;
     public GameObject confirmUpdatedObject;
+    public GameObject headerObject;
 
     public void Start()
     {
@@ -40,8 +42,10 @@ public class InitLobbyController : MonoBehaviour
             Debug.LogError("Button component not found on the GameObject");
             yield break;
         }
+        headerObject.GetComponent<TMP_Text>().text = "Please wait";
         startButton.interactable = false;
         settingsButtonObject.SetActive(false);
+        instructionsButtonObject.SetActive(false);
         textMeshPro.text = "Simulating...";
         SimRunner simRunner = simRunnerObject.GetComponent<SimRunner>();
         if (simRunner == null)
@@ -58,7 +62,6 @@ public class InitLobbyController : MonoBehaviour
             Debug.LogError("SceneLoader component is missing from the specified GameObject.");
             yield break;
         }
-
         yield return sceneLoader.LoadSceneAsync();
     }
 
@@ -66,6 +69,7 @@ public class InitLobbyController : MonoBehaviour
     {
         startMenuObject.SetActive(!startMenuObject.activeSelf);
         settingsMenuObject.SetActive(!settingsMenuObject.activeSelf);
+        confirmUpdatedObject.SetActive(false);
     }
 
     public void ApplySettings()
