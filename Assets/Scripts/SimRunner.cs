@@ -105,7 +105,6 @@ namespace RevolVR
 		{
 			string path = $"{Application.dataPath}/model.xml";
 			var importer = new MjImporterWithAssets();
-			//GameObject importedScene = importer.ImportFile(path);
 			GameObject importedScene = null;
 			while (importedScene == null)
 			{

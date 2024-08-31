@@ -80,6 +80,8 @@ public class WristUIController : MonoBehaviour
         }
         else
         {
+            Button nextButton = currentMenu.transform.Find("NextButton").GetComponent<Button>();
+            nextButton.interactable = false;
             StartCoroutine(OnSubmit());
         }
     }
