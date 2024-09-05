@@ -615,7 +615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2179057469866936249, guid: 41d89b59fe3e9964a83686ff24b7d0c5, type: 3}
       propertyPath: m_text
-      value: Step size
+      value: Round length
       objectReference: {fileID: 0}
     - target: {fileID: 2179057469866936250, guid: 41d89b59fe3e9964a83686ff24b7d0c5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -720,7 +720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 127902919}
   valueDisplayText: {fileID: 1027352367}
-  configName: STEP_SIZE
+  configName: ROUND_LENGTH
 --- !u!1001 &140201800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2240,7 +2240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2179057469866936249, guid: 41d89b59fe3e9964a83686ff24b7d0c5, type: 3}
       propertyPath: m_text
-      value: Number of rounds
+      value: Number of generations
       objectReference: {fileID: 0}
     - target: {fileID: 2179057469866936250, guid: 41d89b59fe3e9964a83686ff24b7d0c5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2356,7 +2356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 618468461}
   valueDisplayText: {fileID: 618468462}
-  configName: ROUNDS
+  configName: NUM_GENERATIONS
 --- !u!1001 &652124635
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5781,7 +5781,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 1.67e-43, z: 2.7278e-41, w: 1.6500084e-36}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 1.7e-43, z: 9.358e-42, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -6201,7 +6201,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 08d0ccc4a501e6645be0c3ee36d0cd20, type: 2}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -8736139387858639196, guid: a8211a3e0e87d014e8326e23ae022d39, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8211a3e0e87d014e8326e23ae022d39, type: 3}

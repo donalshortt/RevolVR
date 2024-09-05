@@ -14,9 +14,8 @@ public class AppConfig
     public int CMAES_POP_SIZE { get; set; }
     public float[] CMAES_BOUNDS { get; set; }
     public int GRID_SIZE { get; set; }
-    public int STEP_SIZE { get; set; }
-    public int ROUNDS { get; set; }
-    public int ROUNDS_INDEX { get; set; }
+    public int ROUND_LENGTH { get; set; }
+    public int GENERATION_INDEX { get; set; }
 }
 
 public class ConfigManager

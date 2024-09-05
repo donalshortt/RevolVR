@@ -26,7 +26,6 @@ public class InitLobbyController : MonoBehaviour
     {
         configPath = "Assets/revolve2/vr/db/config.json";
         config = ConfigManager.LoadConfig(configPath);
-        config.ROUNDS_INDEX = 1;
         ConfigManager.SaveConfig(configPath, config);
     }
 
@@ -37,6 +36,7 @@ public class InitLobbyController : MonoBehaviour
 
     private IEnumerator RunSimAndLoadScene()
     {
+        config.GENERATION_INDEX = 1;
         if (startButton == null)
         {
             Debug.LogError("Button component not found on the GameObject");
@@ -79,8 +79,8 @@ public class InitLobbyController : MonoBehaviour
         // Right now there is only (mu, lambda) and we have the amount of
         // offspring equal to the population size. This can be changed later.
         config.OFFSPRING_SIZE = Mathf.RoundToInt(populationSlider.value);
-        config.STEP_SIZE = Mathf.RoundToInt(stepSizeSlider.value);
-        config.ROUNDS = Mathf.RoundToInt(roundsSlider.value);
+        config.ROUND_LENGTH = Mathf.RoundToInt(stepSizeSlider.value);
+        config.NUM_GENERATIONS = Mathf.RoundToInt(roundsSlider.value);
         ConfigManager.SaveConfig(configPath, config);
         if (!confirmUpdatedObject.activeSelf) confirmUpdatedObject.SetActive(true);
     }

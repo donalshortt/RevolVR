@@ -27,7 +27,7 @@ public class RobotInfo : MonoBehaviour
 
     public void UpdateRobotInfo(string name, float fitness, int id) {
         string robotInfo = $"Robot name: {name}\n" +
-                           $"Robot fitness: {fitness}\n" +
+                           $"Robot fitness: {fitness:F2}\n" +
                            $"Robot ID: {id}";
         infoText.text = robotInfo;
     }

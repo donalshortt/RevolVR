@@ -19,7 +19,7 @@ public class WristUIController : MonoBehaviour
         config = ConfigManager.LoadConfig("Assets/revolve2/vr/db/config.json");
         offspringSize = config.OFFSPRING_SIZE;
         menuInstances = new GameObject[offspringSize];
-        if (config.ROUNDS_INDEX <= config.ROUNDS)
+        if (config.GENERATION_INDEX <= config.NUM_GENERATIONS)
         {
             for (int i = 0; i < offspringSize; i++)
             {
@@ -33,8 +33,8 @@ public class WristUIController : MonoBehaviour
 
                 TMP_Text header = instance.transform.Find("Header").GetComponent<TMP_Text>();
                 header.text = $"Select parents of child {i + 1}/{offspringSize}";
-                TMP_Text roundsText = instance.transform.Find("RoundsText").GetComponent<TMP_Text>();
-                roundsText.text = $"Round {config.ROUNDS_INDEX}/{config.ROUNDS}";
+                TMP_Text roundsText = instance.transform.Find("GenerationText").GetComponent<TMP_Text>();
+                roundsText.text = $"Generation {config.GENERATION_INDEX}/{config.NUM_GENERATIONS}";
 
                 if (i == 0)
                 {
