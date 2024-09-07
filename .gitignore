@@ -5,4 +5,5 @@
 !Assets/
 !Assets/**
 
+# Ignore Local folder in Assets
 Assets/Local

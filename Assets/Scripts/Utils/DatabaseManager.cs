@@ -22,7 +22,7 @@ public class DatabaseManager : MonoBehaviour
 {
     public static IDbConnection GetDBConnection()
     {
-        string conn = "URI=file:" + Application.dataPath + "/database.sqlite";
+        string conn = "URI=file:" + Application.dataPath + "/temp_database.sqlite";
         IDbConnection dbconn;
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open();

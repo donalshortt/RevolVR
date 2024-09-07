@@ -26,7 +26,6 @@ public class InitLobbyController : MonoBehaviour
     {
         configPath = "Assets/revolve2/vr/db/config.json";
         config = ConfigManager.LoadConfig(configPath);
-        ConfigManager.SaveConfig(configPath, config);
     }
 
     public void StartSim()
@@ -37,6 +36,7 @@ public class InitLobbyController : MonoBehaviour
     private IEnumerator RunSimAndLoadScene()
     {
         config.GENERATION_INDEX = 1;
+        ConfigManager.SaveConfig(configPath, config);
         if (startButton == null)
         {
             Debug.LogError("Button component not found on the GameObject");
